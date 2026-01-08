@@ -1,18 +1,29 @@
+{% extends "base.html" %}
+
+
+
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout - Step by Step</title>
-<link rel="stylesheet" href="{% static 'merchandise/css/checkout.css' %}">
-</head>
+{% block title %}Checkout{% endblock %}
+
+{% block extra_css %}
+  <!-- Fonts: Inter for UI, Playfair Display for headlines -->
+   <link rel="stylesheet" href="{% static 'merchandise/css/checkout.css' %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'merchandise/css/products.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+{% endblock %}
+
+{% block content %}
+
+
 <body>
-  <header>
-    <img src="{% static 'merchandise/Resources/HVEPlogo.png' %}" alt="Logo" id="logo">
-    <div id="nav-bar">HimVillageePrahari Foundation</div>
-  </header>
 
   <div class="checkout-wrapper">
     <h1>Checkout</h1>
@@ -260,6 +271,12 @@
     </div>
   </div>
 
-<script src="{% static 'merchandise/js/checkout.js' %}"></script>
 </body>
-</html>
+
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'merchandise/js/checkout.js' %}"></script>
+{% endblock %}

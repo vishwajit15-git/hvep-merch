@@ -1,14 +1,25 @@
+{% extends "base.html" %}
+
+
+
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoShop Products</title>
-<link rel="stylesheet" href="{% static 'merchandise/css/products.css' %}">
+{% block title %}EcoShop Products{% endblock %}
+
+{% block extra_css %}
+  <!-- Fonts: Inter for UI, Playfair Display for headlines -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'merchandise/css/products.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head>
+
+{% endblock %}
+
+{% block content %}
+
 <body onload="initProductApp()">
     <div id="filter-modal" class="filter-modal hidden">
         <div class="filter-modal-content">
@@ -24,25 +35,6 @@
         </div>
     </div>
     
-    <header class="eco-header">
-        <a href="#" onclick="showView('product-listing'); return false;" class="logo-link">
-            <i class="fas fa-leaf logo-icon"></i>
-            <span id="nav-bar">EcoShop</span>
-        </a>
-        <div class="search-container">
-            <i class="fas fa-search search-icon"></i>
-            <input 
-                type="search" 
-                id="global-search" 
-                placeholder="Search products by name..." 
-                oninput="updateSearchTerm(this)"
-            >
-        </div>
-
-        <nav class="ml-auto">
-            <button class="nav-btn active-nav" data-view="product-listing" onclick="showView('product-listing')">Products</button>
-        </nav>
-    </header>
 
     <div class="product-wrapper">
         <div id="product-listing" class="app-view active">
@@ -113,6 +105,16 @@
         
     </div>
 
-<script src="{% static 'merchandise/js/products.js' %}"></script>
 </body>
-</html>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'merchandise/js/products.js' %}"></script>
+{% endblock %}
+
+
+
+
+
