@@ -9,13 +9,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-
 {% endblock %}
 
 
 {% block content %}
-
-
     <main>
       <!-- HERO -->
       <section id="hero" class="hero">
@@ -24,7 +21,7 @@
           <button class="carousel-btn next" id="hero-next" aria-label="Next slide">›</button>
           <div class="slides">
             <div class="slide active" data-index="0">
-              <img src="https://images.unsplash.com/photo-1596464716127-f2a82984de30?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600" alt="Kids creating art from plastic bottles">
+              <img src="{% static 'merchandise/assets/images/bg-craft1.jpg' %}" alt="first bg image showing craft items">
               <div class="slide-overlay"></div>
               <div class="slide-content container">
                 <div class="slide-text">
@@ -34,7 +31,7 @@
               </div>
             </div>
             <div class="slide" data-index="1">
-              <img src="https://images.unsplash.com/photo-1604845538063-de348378c9c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600" alt="tyre planters and glass jar lanterns">
+              <img src="{% static 'merchandise/assets/images/bg-craft2.jpg' %}" alt="second bg image showing cycle in flowers">
               <div class="slide-overlay"></div>
               <div class="slide-content container">
                 <div class="slide-text">
@@ -44,7 +41,7 @@
               </div>
             </div>
             <div class="slide" data-index="2">
-              <img src="https://images.unsplash.com/photo-1640580086296-a6664d19d23d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1600" alt="waste transformed to products">
+              <img src="{% static 'merchandise/assets/images/bg-craft3.jpg' %}" alt="third bg image tyre">
               <div class="slide-overlay"></div>
               <div class="slide-content container">
                 <div class="slide-text">
@@ -180,7 +177,7 @@
             </div>
             <div class="story-content">
               <h3>Students for Earth</h3>
-              <p class="story-quote">“When students create with their own hands, learning turns into purpose and ideas turn into impact."</p>
+              <p class="story-quote">"When students create with their own hands, learning turns into purpose and ideas turn into impact."</p>
               <div class="story-stats">
                 <div class="stat">
                   <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none">
@@ -267,19 +264,16 @@
               Selected Amount: <strong id="selectedAmount">₹0</strong>
             </p>
 
-
             <!-- Proceed -->
             <button class="btn accent donate-proceed-btn" onclick="proceedToDonate()">
               <span class="btn-text">Proceed to Donate</span>
             </button>
           </div>
         </div>
-
-
-
 {% endblock %}
 
 {% block extra_js %}
+<!-- IMPORTANT: Load products.js FIRST to define MOCK_PRODUCTS -->
 <script src="{% static 'merchandise/js/products.js' %}"></script>
 <script src="{% static 'merchandise/js/cart.js' %}"></script>
 <script src="{% static 'merchandise/js/home.js' %}"></script>
