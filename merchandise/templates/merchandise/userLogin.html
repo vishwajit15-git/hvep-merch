@@ -1,0 +1,95 @@
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}Sign In - Him Village Prahari{% endblock %}
+
+{% block extra_css %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'merchandise/css/userlogin.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<body>
+    <div class="signin-page-wrapper">
+        <div class="mountain-accent"></div>
+        
+        <div class="logo-container">
+            <a href="/" class="logo">
+                <i class="fas fa-mountain"></i> Him Village Prahari
+            </a>
+            <div class="decorative-line"></div>
+            <div class="logo-subtitle">Mountain Community Watch</div>
+        </div>
+
+        <div class="signin-container">
+            <div class="ornament">
+                <span class="leaf-decoration">❋</span> ⚘ <span class="leaf-decoration">❋</span>
+            </div>
+            
+            <h1 class="signin-title">Welcome Back</h1>
+            
+            <form id="signinForm" method="POST" action="{% url 'merchandise:login' %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="email">Email or Mobile Number</label>
+                    <input type="email" id="email" name="email" required placeholder="Enter your email" autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" required placeholder="Enter your password" autocomplete="current-password">
+                        <span class="show-password" onclick="togglePassword()">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="keepSignedIn" name="keepSignedIn">
+                    <label for="keepSignedIn">Keep me signed in</label>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Sign In
+                </button>
+
+                <div class="helper-text">
+                    By continuing, you agree to our Terms of Service and Privacy Policy
+                </div>
+
+                <div class="helper-text" style="margin-top: 20px;">
+                    
+                        <i class="fas fa-lock"></i> Forgot your password?
+                </div>
+            </form>
+        </div>
+
+        <div class="divider-container">
+            <div class="divider">
+                <span class="divider-text">New to Him Village Prahari?</span>
+            </div>
+        </div>
+
+        <a href="{% url 'merchandise:signup' %}">
+            <button class="create-account-btn">
+            <i class="fas fa-user-plus"></i> Create Your Account
+            </button>
+        </a>
+
+        </div>
+    </div>
+</body>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'merchandise/js/userlogin.js' %}"></script>
+{% endblock %}
