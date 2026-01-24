@@ -1,63 +1,31 @@
 // Updated home.js with cart integration
 
-const featuredProducts = [
-  {
-    id: 'prod1',
-    image: 'team1-assets/product-images/glass-jar-lantern.png',
-    name: 'Recycled Paper Journal',
-    tagline: 'Pen your thoughts sustainably.',
-    price: 85,
-  },
-  {
-    id: 'prod2',
-    image: 'team1-assets/product-images/ChatGPT%20Image%20Nov%207%2C%202025%2C%2009_18_19%20PM.png',
-    name: 'Glass Jar Lantern',
-    tagline: 'Light up your world, eco-style.',
-    price: 150,
-  },
-  {
-    id: 'prod3',
-    image: 'team1-assets/product-images/upcycled-tyre-pplanter.png',
-    name: 'Upcycled Tire Planter',
-    tagline: 'Give your plants a recycled home.',
-    price: 120,
-  },
-  {
-    id: 'prod4',
-    image: 'team1-assets/product-images/woven-bag.png',
-    name: 'Woven Plastic Tote Bag',
-    tagline: 'Carry your essentials with purpose.',
-    price: 100,
-  },
-  {
-    id: 'prod5',
-    image: 'team1-assets/product-images/cap-covers.png',
-    name: 'Bottle Cap Coasters',
-    tagline: 'Protect your surfaces with art.',
-    price: 50,
-  },
-];
+function getHomeProducts() {
+  return window.MOCK_PRODUCTS ? window.MOCK_PRODUCTS.slice(0, 4) : [];
+}
 
 function renderProducts() {
   const grid = document.getElementById('product-grid');
-  if (!grid) return;
-  featuredProducts.forEach((p) => {
+  if (!grid || !window.MOCK_PRODUCTS) return;
+
+  const products = window.MOCK_PRODUCTS.slice(0, 4);
+
+  products.forEach((p) => {
     const card = document.createElement('article');
     card.className = 'card';
     card.innerHTML = `
-      <img src="${p.image}" alt="${p.name}">
-      <div class="card-body">
-        <h3>${p.name}</h3>
-        <p class="muted">${p.tagline}</p>
-      </div>
-      <div class="card-footer">
-        <div class="price">${formatCurrency(p.price)}</div>
-        <div class="card-actions">
-          <button class="btn ghost wishlist" data-id="${p.id}" onclick="handleWishlist('${p.id}')">♥</button>
-          <button class="btn" data-id="${p.id}" onclick="handleAddToCart('${p.id}')">Add to Cart</button>
-        </div>
-      </div>
-    `;
+  <div class="card-clickable" onclick="openProduct(${p.id})">
+    <img src="${p.images[0]}" alt="${p.name}">
+    <div class="card-body">
+      <h3>${p.name}</h3>
+    </div>
+    <div class="card-footer">
+      <div class="price">${formatCurrency(p.price)}</div>
+      <span class="btn">View</span>
+    </div>
+  </div>
+`;
+
     grid.appendChild(card);
   });
 }
@@ -197,6 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+function openProduct(productId) {
+  const link = document.querySelector('a[href*="products"]');
+  if (!link) return;
+
+  window.location.href = `${link.href}?product=${productId}`;
+}
+
 // Export functions
 window.handleAddToCart = handleAddToCart;
 window.handleWishlist = handleWishlist;
+window.openProduct = openProduct;

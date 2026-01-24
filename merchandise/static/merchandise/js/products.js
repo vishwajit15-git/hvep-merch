@@ -1,11 +1,95 @@
 
 const MOCK_PRODUCTS = [
-    { id: 1, name: 'Eco Bamboo Toothbrush', price: 499, category: 'Personal Care', rating: 5, material: 'Sustainable Bamboo', impact: 'Reduces plastic waste', ecoScore: { carbon: 'A-', water: 'A', waste: 'A+' }, images: ['https://placehold.co/800x800/10B981/ffffff?text=Image+1', 'https://placehold.co/800x800/059669/ffffff?text=Image+2'] },
-    { id: 2, name: 'Recycled Cotton Tote', price: 749, category: 'Accessories', rating: 4, material: 'Recycled Cotton', impact: 'Saves water resources', ecoScore: { carbon: 'B+', water: 'A', waste: 'B' }, images: ['https://placehold.co/800x800/3b82f6/ffffff?text=Image+1'] },
-    { id: 3, name: 'Natural Beeswax Candle', price: 599, category: 'Home Goods', rating: 5, material: 'Pure Beeswax', impact: 'Carbon neutral burning', ecoScore: { carbon: 'A', water: 'B-', waste: 'A' }, images: ['https://placehold.co/800x800/f59e0b/ffffff?text=Image+1'] },
-    { id: 4, name: 'Upcycled Leather Wallet', price: 1899, category: 'Accessories', rating: 5, material: 'Reclaimed Leather', impact: 'Prevents landfill waste', ecoScore: { carbon: 'A+', water: 'A+', waste: 'A' }, images: ['https://placehold.co/800x800/4c4c4c/ffffff?text=Image+1'] },
-    { id: 5, name: 'Glass Jar Storage Set', price: 450, category: 'Home Goods', rating: 4, material: 'Recycled Glass', impact: 'Reusable storage', ecoScore: { carbon: 'B', water: 'B', waste: 'A+' }, images: ['https://placehold.co/800x800/6b7280/ffffff?text=Image+1'] },
+  {
+    id: 1,
+    name: 'Bouquet Candle',
+    price: 249,
+    category: 'Candles',
+    rating: 5,
+    material: 'Soy Wax',
+    impact: 'Eco-friendly handcrafted candle',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
+    images: ['/static/merchandise/assets/product-images/Bouquet candle.png']
+  },
+  {
+    id: 2,
+    name: 'Bubble Candle',
+    price: 199,
+    category: 'Candles',
+    rating: 4,
+    material: 'Soy Wax',
+    impact: 'Minimal waste decorative candle',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/BUBBLE CANDLE.png']
+  },
+  {
+    id: 3,
+    name: 'Iced Coffee Latte Candle',
+    price: 799,
+    category: 'Candles',
+    rating: 5,
+    material: 'Gel Wax',
+    impact: 'Reusable glass jar candle',
+    ecoScore: { carbon: 'A-', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/Iced Coffee Latte.png']
+  },
+  {
+    id: 4,
+    name: 'Jar Candle',
+    price: 149,
+    category: 'Candles',
+    rating: 4,
+    material: 'Soy Wax',
+    impact: 'Long-lasting eco candle',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/Jar candle.png']
+  },
+  {
+    id: 5,
+    name: 'Moti Choor Ladoo Candle',
+    price: 50,
+    category: 'Candles',
+    rating: 5,
+    material: 'Soy Wax',
+    impact: 'Fun festive sustainable decor',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
+    images: ['/static/merchandise/assets/product-images/Motti choor ladoo candle.png']
+  },
+  {
+    id: 6,
+    name: 'Rose Candle',
+    price: 99,
+    category: 'Candles',
+    rating: 4,
+    material: 'Soy Wax',
+    impact: 'Hand-poured floral candle',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/Rose candle.png']
+  },
+  {
+    id: 7,
+    name: 'Sunflower Candle Jar',
+    price: 129,
+    category: 'Candles',
+    rating: 5,
+    material: 'Soy Wax',
+    impact: 'Reusable jar with sunflower art',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
+    images: ['/static/merchandise/assets/product-images/Sunflower candle Jar.png']
+  },
+  {
+    id: 8,
+    name: 'Teddy Candle',
+    price: 99,
+    category: 'Candles',
+    rating: 4,
+    material: 'Soy Wax',
+    impact: 'Cute decorative sustainable candle',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/Teddy Candle.png']
+  }
 ];
+
 
 let selectedProduct = null;
 let currentImageIndex = 0;
@@ -331,6 +415,14 @@ function initProductApp() {
     if (window.CartManager) {
         window.CartManager.init();
     }
+
+    const params = new URLSearchParams(window.location.search);
+    const productId = params.get('product');
+
+    if (productId) {
+    viewProductDetail(parseInt(productId));
+    }
+
 }
 
 window.initProductApp = initProductApp;
@@ -343,3 +435,4 @@ window.navigateImage = navigateImage;
 window.handleProductDetailAddToCart = handleProductDetailAddToCart;
 window.toggleFilterModal = toggleFilterModal;
 window.applyFilters = applyFilters;
+window.MOCK_PRODUCTS = MOCK_PRODUCTS;
