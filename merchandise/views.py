@@ -16,7 +16,14 @@ def profile(request):
     # Ensure profile exists
     profile, created = Profile.objects.get_or_create(
         user=request.user,
-        defaults={'full_name': '', 'mobile': ''}
+        defaults={
+            'full_name': '',
+            'mobile': '',
+            'gender': '',
+            'address': '',
+            'city': '',
+            'postal_code': ''
+        }
     )
     return render(request, "merchandise/profile.html")
 
@@ -67,7 +74,7 @@ def signup_view(request):
                     email=email,
                     password=password
                 )
-                
+
                 # Split full name into first and last name
                 name_parts = full_name.split(' ', 1)
                 user.first_name = name_parts[0]
@@ -127,12 +134,16 @@ def update_profile(request):
         try:
             # Get or create profile
             profile, created = Profile.objects.get_or_create(user=request.user)
-            
-            # Update profile fields
+
+            # Update all profile fields
             profile.full_name = request.POST.get('full_name', '').strip()
             profile.mobile = request.POST.get('mobile', '').strip()
+            profile.gender = request.POST.get('gender', '').strip()
+            profile.address = request.POST.get('address', '').strip()
+            profile.city = request.POST.get('city', '').strip()
+            profile.postal_code = request.POST.get('postal_code', '').strip()
             profile.save()
-            
+
             # Update user's first and last name
             full_name = profile.full_name
             if full_name:
@@ -140,9 +151,9 @@ def update_profile(request):
                 request.user.first_name = name_parts[0]
                 request.user.last_name = name_parts[1] if len(name_parts) > 1 else ''
                 request.user.save()
-            
+
             messages.success(request, "Profile updated successfully!")
         except Exception as e:
             messages.error(request, f"Error updating profile: {str(e)}")
-    
+
     return redirect('merchandise:profile')

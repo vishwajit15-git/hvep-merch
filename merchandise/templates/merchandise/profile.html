@@ -1,4 +1,5 @@
 <!-- ===================== profile.html ===================== -->
+{% extends "base.html" %}
 {% load static %}
 
 {% block title %}My Profile | Him Village Prahari{% endblock %}
@@ -18,11 +19,11 @@
                 <i class="fas fa-user-circle"></i>
             </div>
             <h1 class="welcome-text">
-                Welcome back, 
+                Welcome back,
                 {% if request.user.profile and request.user.profile.full_name %}
-                    {{ request.user.profile.full_name|title }}
+                {{ request.user.profile.full_name|title }}
                 {% else %}
-                    {{ request.user.username|title }}
+                {{ request.user.username|title }}
                 {% endif %}
             </h1>
             <p class="tagline">
@@ -39,9 +40,9 @@
                 </div>
                 <h3>
                     {% if request.user.profile and request.user.profile.full_name %}
-                        {{ request.user.profile.full_name }}
+                    {{ request.user.profile.full_name }}
                     {% else %}
-                        {{ request.user.username }}
+                    {{ request.user.username }}
                     {% endif %}
                 </h3>
                 <p class="user-email">{{ request.user.email }}</p>
@@ -52,31 +53,31 @@
 
             <ul class="menu">
                 <li class="active">
-                    <i class="fas fa-user"></i> 
+                    <i class="fas fa-user"></i>
                     <span>Profile Information</span>
                 </li>
                 <li>
-                    <i class="fas fa-box"></i> 
+                    <i class="fas fa-box"></i>
                     <span>My Orders</span>
                 </li>
                 <li>
-                    <i class="fas fa-map-marker-alt"></i> 
+                    <i class="fas fa-map-marker-alt"></i>
                     <span>Manage Addresses</span>
                 </li>
                 <li>
-                    <i class="fas fa-heart"></i> 
+                    <i class="fas fa-heart"></i>
                     <span>Wishlist</span>
                 </li>
                 <li>
-                    <i class="fas fa-lock"></i> 
+                    <i class="fas fa-lock"></i>
                     <span>Change Password</span>
                 </li>
                 <li>
-                    <i class="fas fa-bell"></i> 
+                    <i class="fas fa-bell"></i>
                     <span>Notifications</span>
                 </li>
                 <li class="logout" onclick="confirmLogout()">
-                    <i class="fas fa-sign-out-alt"></i> 
+                    <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </li>
             </ul>
@@ -85,17 +86,17 @@
         <main class="profile-content">
             <!-- Messages Section -->
             {% if messages %}
-                <div class="messages-container">
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }}">
-                            <i class="fas fa-check-circle"></i>
-                            <span>{{ message }}</span>
-                            <button class="close-alert" onclick="this.parentElement.remove()">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    {% endfor %}
+            <div class="messages-container">
+                {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <i class="fas fa-check-circle"></i>
+                    <span>{{ message }}</span>
+                    <button class="close-alert" onclick="this.parentElement.remove()">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
+                {% endfor %}
+            </div>
             {% endif %}
 
             <div class="content-header">
@@ -107,34 +108,34 @@
 
             <form class="profile-form" method="post" action="{% url 'merchandise:update_profile' %}">
                 {% csrf_token %}
-                
+
                 <div class="form-section">
                     <h3 class="section-title">
                         <i class="fas fa-id-card"></i> Basic Information
                     </h3>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>
                                 <i class="fas fa-user"></i> Full Name
                             </label>
-                            <input 
-                                type="text" 
-                                name="full_name" 
-                                value="{% if request.user.profile %}{{ request.user.profile.full_name }}{% endif %}" 
-                                placeholder="Enter your full name"
-                                required
+                            <input
+                                    type="text"
+                                    name="full_name"
+                                    value="{% if request.user.profile %}{{ request.user.profile.full_name }}{% endif %}"
+                                    placeholder="Enter your full name"
+                                    required
                             />
                         </div>
                         <div class="form-group">
                             <label>
                                 <i class="fas fa-envelope"></i> Email Address
                             </label>
-                            <input 
-                                type="email" 
-                                value="{{ request.user.email }}" 
-                                disabled 
-                                class="disabled-input"
+                            <input
+                                    type="email"
+                                    value="{{ request.user.email }}"
+                                    disabled
+                                    class="disabled-input"
                             />
                             <small class="helper-text">Email cannot be changed</small>
                         </div>
@@ -145,11 +146,11 @@
                             <label>
                                 <i class="fas fa-phone"></i> Mobile Number
                             </label>
-                            <input 
-                                type="text" 
-                                name="mobile" 
-                                value="{% if request.user.profile %}{{ request.user.profile.mobile }}{% endif %}" 
-                                placeholder="Enter your mobile number"
+                            <input
+                                    type="text"
+                                    name="mobile"
+                                    value="{% if request.user.profile %}{{ request.user.profile.mobile }}{% endif %}"
+                                    placeholder="Enter your mobile number"
                             />
                         </div>
                         <div class="form-group">
@@ -158,9 +159,9 @@
                             </label>
                             <select name="gender">
                                 <option value="">Select Gender</option>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                                <option value="other">Other</option>
+                                <option value="male" {% if request.user.profile.gender == 'male' %}selected{% endif %}>Male</option>
+                                <option value="female" {% if request.user.profile.gender == 'female' %}selected{% endif %}>Female</option>
+                                <option value="other" {% if request.user.profile.gender == 'other' %}selected{% endif %}>Other</option>
                             </select>
                         </div>
                     </div>
@@ -170,16 +171,17 @@
                     <h3 class="section-title">
                         <i class="fas fa-map-marked-alt"></i> Location Details
                     </h3>
-                    
+
                     <div class="form-row">
                         <div class="form-group full-width">
                             <label>
                                 <i class="fas fa-home"></i> Address
                             </label>
-                            <input 
-                                type="text" 
-                                name="address" 
-                                placeholder="Enter your address"
+                            <input
+                                    type="text"
+                                    name="address"
+                                    value="{% if request.user.profile %}{{ request.user.profile.address }}{% endif %}"
+                                    placeholder="Enter your address"
                             />
                         </div>
                     </div>
@@ -189,20 +191,22 @@
                             <label>
                                 <i class="fas fa-city"></i> City
                             </label>
-                            <input 
-                                type="text" 
-                                name="city" 
-                                placeholder="Your city"
+                            <input
+                                    type="text"
+                                    name="city"
+                                    value="{% if request.user.profile %}{{ request.user.profile.city }}{% endif %}"
+                                    placeholder="Your city"
                             />
                         </div>
                         <div class="form-group">
                             <label>
                                 <i class="fas fa-mail-bulk"></i> Postal Code
                             </label>
-                            <input 
-                                type="text" 
-                                name="postal_code" 
-                                placeholder="PIN code"
+                            <input
+                                    type="text"
+                                    name="postal_code"
+                                    value="{% if request.user.profile %}{{ request.user.profile.postal_code }}{% endif %}"
+                                    placeholder="PIN code"
                             />
                         </div>
                     </div>

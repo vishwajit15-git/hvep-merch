@@ -34,7 +34,7 @@ body {
     height: 280px;
     background: linear-gradient(135deg, var(--primary-green) 0%, var(--dark-green) 100%);
     overflow: hidden;
-    margin-bottom: -80px;
+    margin-bottom: 40px;
 }
 
 .mountain-overlay {
@@ -43,7 +43,7 @@ body {
     left: 0;
     right: 0;
     height: 120px;
-    background: 
+    background:
         linear-gradient(to bottom, transparent, rgba(0,0,0,0.2)),
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath d='M0 120L50 105L100 90L150 75L200 60L250 75L300 90L350 75L400 60L450 45L500 30L550 45L600 60L650 45L700 30L750 45L800 60L850 75L900 60L950 75L1000 90L1050 105L1100 90L1150 75L1200 60V120H0Z' fill='rgba(255,255,255,0.1)'/%3E%3C/svg%3E");
     background-size: cover;
@@ -437,6 +437,11 @@ body {
     transform: translateY(0);
 }
 
+.save-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .reset-btn {
     background: white;
     color: var(--text);
@@ -597,6 +602,25 @@ body {
     box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
 }
 
+/* Error styling */
+.form-group input.error,
+.form-group select.error {
+    border-color: #dc2626;
+}
+
+.field-error {
+    color: #dc2626;
+    font-size: 13px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.field-error i {
+    font-size: 12px;
+}
+
 /* Animations */
 @keyframes fadeIn {
     from {
@@ -656,7 +680,7 @@ body {
 
     .profile-hero {
         height: 240px;
-        margin-bottom: -60px;
+        margin-bottom: 30px;
     }
 
     .welcome-text {
