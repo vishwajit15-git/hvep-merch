@@ -56,10 +56,15 @@
         </div>
 
         <!-- Account -->
-        <a href="{% url 'merchandise:login' %}" style="text-decoration: none; color: inherit;">
+        <a href="{% if user.is_authenticated %}{% url 'merchandise:profile' %}{% else %}{% url 'merchandise:login' %}{% endif %}" 
+           style="text-decoration: none; color: inherit;">
             <div class="nav-item" id="accountBtn">
                 <div class="nav-item-content">
-                    <span class="nav-item-label">Hello, Sign in</span>
+                    {% if user.is_authenticated %}
+                        <span class="nav-item-label">Hello, {{ user.first_name|default:user.username }}</span>
+                    {% else %}
+                        <span class="nav-item-label">Hello, Sign in</span>
+                    {% endif %}
                     <span class="nav-item-title">Account & Lists <i class="fas fa-caret-down"></i></span>
                 </div>
             </div>
