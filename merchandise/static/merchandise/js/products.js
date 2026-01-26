@@ -6,7 +6,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 5,
     material: 'Soy Wax',
-    impact: 'Eco-friendly handcrafted candle',
+    info: 'Eco-friendly handcrafted candle',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
     images: ['/static/merchandise/assets/product-images/Bouquet candle.png']
   },
@@ -17,7 +17,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 4,
     material: 'Soy Wax',
-    impact: 'Minimal waste decorative candle',
+    info: 'Minimal waste decorative candle',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
     images: ['/static/merchandise/assets/product-images/BUBBLE CANDLE.png']
   },
@@ -28,7 +28,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 5,
     material: 'Gel Wax',
-    impact: 'Reusable glass jar candle',
+    info: 'Reusable glass jar candle',
     ecoScore: { carbon: 'A-', water: 'A', waste: 'A' },
     images: ['/static/merchandise/assets/product-images/Iced Coffee Latte.png']
   },
@@ -39,7 +39,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 4,
     material: 'Soy Wax',
-    impact: 'Long-lasting eco candle',
+    info: 'Long-lasting eco candle',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
     images: ['/static/merchandise/assets/product-images/Jar candle.png']
   },
@@ -50,7 +50,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 5,
     material: 'Soy Wax',
-    impact: 'Fun festive sustainable decor',
+    info: 'Fun festive sustainable decor',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
     images: ['/static/merchandise/assets/product-images/Motti choor ladoo candle.png']
   },
@@ -61,7 +61,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 4,
     material: 'Soy Wax',
-    impact: 'Hand-poured floral candle',
+    info: 'Hand-poured floral candle',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
     images: ['/static/merchandise/assets/product-images/Rose candle.png']
   },
@@ -72,7 +72,7 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 5,
     material: 'Soy Wax',
-    impact: 'Reusable jar with sunflower art',
+    info: 'Reusable jar with sunflower art',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A+' },
     images: ['/static/merchandise/assets/product-images/Sunflower candle Jar.png']
   },
@@ -83,9 +83,45 @@ const MOCK_PRODUCTS = [
     category: 'Candles',
     rating: 4,
     material: 'Soy Wax',
-    impact: 'Cute decorative sustainable candle',
+    info: 'Cute decorative sustainable candle',
     ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
     images: ['/static/merchandise/assets/product-images/Teddy Candle.png']
+  },
+  {
+    id: 9,
+    name: 'Jeera Namak',
+    price: 150,
+    pricePer100g: true,
+    category: 'Food & Gourmet',
+    rating: 5,
+    material: 'Salt',
+    info: 'Homemade Salt',
+    ecoScore: { carbon: 'A', water: 'A+', waste: 'A+' },
+    images: ['/static/merchandise/assets/product-images/jeera-namak.jpeg']
+  },
+  {
+    id: 10,
+    name: 'Lasoon Namak',
+    price: 150,
+    pricePer100g: true,
+    category: 'Food & Gourmet',
+    rating: 5,
+    material: 'Salt',
+    info: 'Homemade Salt',
+    ecoScore: { carbon: 'A+', water: 'A', waste: 'A+' },
+    images: ['/static/merchandise/assets/product-images/lasoon-namak.jpeg']
+  },
+  {
+    id: 11,
+    name: 'Bhaang Beej Namak',
+    price: 150,
+    pricePer100g: true,
+    category: 'Food & Gourmet',
+    rating: 4,
+    material: 'Salt',
+    info: 'Homemade Salt',
+    ecoScore: { carbon: 'A', water: 'A', waste: 'A' },
+    images: ['/static/merchandise/assets/product-images/bhaang-beej-namak.jpeg']
   }
 ];
 
@@ -110,7 +146,7 @@ const SORT_OPTIONS = {
 function getStarRatingHTML(rating) {
     const fullStars = '★'.repeat(rating);
     const emptyStars = '☆'.repeat(5 - rating);
-    return `<span class=\"star-rating\">${fullStars}${emptyStars}</span>`;
+    return `<span class="star-rating">${fullStars}${emptyStars}</span>`;
 }
 
 function toggleFilterModal(open) {
@@ -157,13 +193,13 @@ function renderFilters() {
     const categoryContainer = document.getElementById('category-filter'); 
     if (!categoryContainer) return;
     const categories = [...new Set(MOCK_PRODUCTS.map(p => p.category))];
-    let html = '<p class=\"filter-label\">Product Category</p>';
+    let html = '<p class="filter-label">Product Category</p>';
     
     categories.forEach(cat => {
         const isChecked = activeFilters.categories.includes(cat) ? 'checked' : '';
         html += `
             <label>
-                <input type=\"checkbox\" value=\"${cat}\" ${isChecked} onchange=\"updateCategoryFilter(this)\"> 
+                <input type="checkbox" value="${cat}" ${isChecked} onchange="updateCategoryFilter(this)"> 
                 ${cat}
             </label>
         `;
@@ -211,7 +247,7 @@ function applyFilters() {
         activeFilters.maxPrice = parseInt(priceRangeInput.value);
     }
     
-    const ratingRadio = document.querySelector('#rating-filter input[name=\"rating\"]:checked');
+    const ratingRadio = document.querySelector('#rating-filter input[name="rating"]:checked');
     activeFilters.minRating = ratingRadio ? parseInt(ratingRadio.value) : 0;
 
     const maxPriceDisplay = document.getElementById('max-price-display');
@@ -259,24 +295,32 @@ function renderProductGrid(products) {
     if (!grid) return;
 
     if (products.length === 0) {
-        grid.innerHTML = '<div class=\"no-results p-5 text-center text-gray-500 col-span-full\">No products match your current search or filters.</div>';
+        grid.innerHTML = '<div class="no-results p-5 text-center text-gray-500 col-span-full">No products match your current search or filters.</div>';
         return;
     }
 
     grid.innerHTML = products.map(product => {
         const firstImage = product.images?.[0] || 'https://placehold.co/600x400/34D399/ffffff?text=Eco+Product';
+        // Logic fix: Use product.price as the per-100g rate
+        const per100gTag = product.pricePer100g 
+            ? `<span class="price-per-100g text-xs text-gray-500 font-normal block"> (₹${product.price.toLocaleString('en-IN')} / 100g)</span>` 
+            : '';
+
         return `
-            <div class=\"product-card\" onclick=\"viewProductDetail(${product.id})\">
+            <div class="product-card" onclick="viewProductDetail(${product.id})">
                 <img 
-                    src=\"${firstImage}\" 
-                    alt=\"${product.name}\" 
-                    class=\"product-image\"
-                    onerror=\"this.onerror=null;this.src='https://placehold.co/600x400/34D399/ffffff?text=Image+Missing';\"
+                    src="${firstImage}" 
+                    alt="${product.name}" 
+                    class="product-image"
+                    onerror="this.onerror=null;this.src='https://placehold.co/600x400/34D399/ffffff?text=Image+Missing';"
                 >
-                <div class=\"card-info\">
+                <div class="card-info">
                     <h4>${product.name}</h4>
-                    <div class=\"flex justify-between items-center mt-2\">
-                        <p class=\"card-price\">₹${product.price.toLocaleString('en-IN')}</p>
+                    <div class="flex justify-between items-center mt-2">
+                        <div class="price-container">
+                          <p class="card-price">₹${product.price.toLocaleString('en-IN')}</p>
+                          ${per100gTag}
+                        </div>
                         ${getStarRatingHTML(product.rating)}
                     </div>
                 </div>
@@ -311,22 +355,22 @@ function navigateImage(direction) {
 
 function renderEcoScore(score) {
     return `
-        <h3 class=\"text-xl font-semibold text-gray-800 mb-3\">Sustainability Scorecard</h3>
-        <div class=\"eco-score-container\">
-            <div class=\"score-item\">
-                <i class=\"fas fa-smog\"></i>
-                <div class=\"score-value text-red-500\">${score.carbon}</div>
-                <div class=\"score-label\">Carbon Footprint</div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-3">Sustainability Scorecard</h3>
+        <div class="eco-score-container">
+            <div class="score-item">
+                <i class="fas fa-smog"></i>
+                <div class="score-value text-red-500">${score.carbon}</div>
+                <div class="score-label">Carbon Footprint</div>
             </div>
-            <div class=\"score-item\">
-                <i class=\"fas fa-tint\"></i>
-                <div class=\"score-value text-blue-500\">${score.water}</div>
-                <div class=\"score-label\">Water Usage</div>
+            <div class="score-item">
+                <i class="fas fa-tint"></i>
+                <div class="score-value text-blue-500">${score.water}</div>
+                <div class="score-label">Water Usage</div>
             </div>
-            <div class=\"score-item\">
-                <i class=\"fas fa-recycle\"></i>
-                <div class=\"score-value text-green-500\">${score.waste}</div>
-                <div class=\"score-label\">Waste Reduction</div>
+            <div class="score-item">
+                <i class="fas fa-recycle"></i>
+                <div class="score-value text-green-500">${score.waste}</div>
+                <div class="score-label">Waste Reduction</div>
             </div>
         </div>
     `;
@@ -341,44 +385,61 @@ function viewProductDetail(productId) {
 
     if (!container) return;
 
+    // Logic fix: Use product.price as the per-100g rate for Detail View
+    const per100gTag = selectedProduct.pricePer100g 
+        ? `<span class="detail-price-per-100g text-lg text-gray-500 font-medium ml-3"> (₹${selectedProduct.price.toLocaleString('en-IN')} / 100g)</span>` 
+        : '';
+
     container.innerHTML = `
-        <div class=\"detail-layout\">
-            <div class=\"gallery-col\">
-                <div class=\"image-carousel-wrapper\">
-                    <img id=\"main-product-image\" 
-                        src=\"${selectedProduct.images?.[0] || 'https://placehold.co/800x800/10B981/ffffff?text=Product+Image'}\" 
-                        alt=\"${selectedProduct.name}\" 
-                        class=\"detail-image\"
+        <div class="detail-layout">
+            <div class="gallery-col">
+                <div class="image-carousel-wrapper">
+                    <img id="main-product-image" 
+                        src="${selectedProduct.images?.[0] || 'https://placehold.co/800x800/10B981/ffffff?text=Product+Image'}" 
+                        alt="${selectedProduct.name}" 
+                        class="detail-image"
                     >
-                    <button class=\"gallery-button prev\" onclick=\"navigateImage(-1)\">
-                        <i class=\"fas fa-chevron-left\"></i>
+                    <button class="gallery-button prev" onclick="navigateImage(-1)">
+                        <i class="fas fa-chevron-left"></i>
                     </button>
-                    <button class=\"gallery-button next\" onclick=\"navigateImage(1)\">
-                        <i class=\"fas fa-chevron-right\"></i>
+                    <button class="gallery-button next" onclick="navigateImage(1)">
+                        <i class="fas fa-chevron-right"></i>
                     </button>
                 </div>
             </div>
 
-            <div class=\"detail-info\">
-                <div class=\"product-rating\">
+            <div class="detail-info">
+                <div class="product-rating">
                     ${getStarRatingHTML(selectedProduct.rating)} (${selectedProduct.rating}.0 / 5)
                 </div>
                 <h2>${selectedProduct.name}</h2>
-                <p class=\"detail-price\">₹${selectedProduct.price.toLocaleString('en-IN')}</p>
+                <div class="detail-price-container flex items-baseline">
+                  <p class="detail-price">₹${selectedProduct.price.toLocaleString('en-IN')}</p>
+                  ${per100gTag}
+                </div>
 
-                <div class=\"eco-score-card\">
+                <div class="eco-score-card">
                     ${renderEcoScore(selectedProduct.ecoScore)}
                 </div>
 
-                <div class=\"eco-story-box eco-story-section\">
-                    <h3><i class=\"fas fa-seedling\"></i> The Story Behind It</h3>
-                    <p class=\"story-text text-gray-700\">
-                        Made with ${selectedProduct.material}. ${selectedProduct.impact}.
-                    </p>
+                <div class="eco-story-box eco-story-section">
+                    <h3 class="mb-4"><i class="fas fa-info-circle"></i> Description</h3>
+                    
+                    <div class="mb-2">
+                        <p class="story-text text-gray-700">
+                            <strong style="color: #15803d;">Material:</strong> ${selectedProduct.material}
+                        </p>
+                    </div>
+
+                    <div>
+                        <p class="story-text text-gray-700">
+                            <strong style="color: #15803d;">Info:</strong> ${selectedProduct.info}
+                        </p>
+                    </div>
                 </div>
 
-                <button class=\"add-to-cart-btn\" onclick=\"handleProductDetailAddToCart()\">
-                    <i class=\"fas fa-cart-plus\"></i> Add to Cart
+                <button class="add-to-cart-btn" onclick="handleProductDetailAddToCart()">
+                    <i class="fas fa-cart-plus"></i> Add to Cart
                 </button>
             </div>
         </div>

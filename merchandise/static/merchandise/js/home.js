@@ -1,5 +1,5 @@
 function getHomeProducts() {
-  return window.MOCK_PRODUCTS ? window.MOCK_PRODUCTS.slice(0, 4) : [];
+  return window.MOCK_PRODUCTS ? window.MOCK_PRODUCTS.slice(0, 9) : [];
 }
 
 function renderProducts() {
@@ -15,12 +15,19 @@ function renderProducts() {
     return;
   }
 
-  const products = window.MOCK_PRODUCTS.slice(0, 4);
+  // Slice to show 9 products instead of 4
+  const products = window.MOCK_PRODUCTS.slice(0, 9);
 
   products.forEach((p) => {
     const card = document.createElement('article');
     card.className = 'card';
-    // Fixed: Added onerror handler for images
+    
+    // Conditional Per 100g Price Tag for Home Grid
+    // Uses p.price directly as the per-100g rate for gourmet items
+    const per100gTag = p.pricePer100g 
+      ? `<span class="price-per-100g" style="font-size: 0.75rem; color: #6b7280; font-weight: 400; display: block;"> (₹${p.price} / 100g)</span>` 
+      : '';
+
     card.innerHTML = `
       <div class="card-clickable" onclick="openProduct(${p.id})">
         <img 
@@ -32,8 +39,9 @@ function renderProducts() {
         <div class="card-body">
           <h3>${p.name}</h3>
         </div>
-        <div class="card-footer">
+        <div class="card-footer" style="flex-direction: column; align-items: center; padding-top: 8px;">
           <div class="price">${formatCurrency(p.price)}</div>
+          ${per100gTag}
         </div>
       </div>
     `;
