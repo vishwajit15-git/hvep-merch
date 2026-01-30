@@ -117,6 +117,13 @@ function showSearchRecommendations(query) {
     // Filter MOCK_PRODUCTS for matching names (Case-insensitive)
     // MOCK_PRODUCTS is globally available if products.js is loaded
     const products = window.MOCK_PRODUCTS || [];
+    
+    // If MOCK_PRODUCTS is not loaded on this page, recommendations can't be shown
+    if (products.length === 0) {
+        console.warn('MOCK_PRODUCTS not loaded on this page. Recommendations hidden.');
+        return;
+    }
+
     const matches = products.filter(p => 
         p.name.toLowerCase().includes(query.toLowerCase())
     ).slice(0, 8); // Max 8 matches
@@ -168,17 +175,17 @@ if (searchInput) {
         const isProductsPage = document.getElementById('product-listing') !== null;
         const value = e.target.value.trim();
 
+        // Show recommendations dropdown on ALL pages (including products page)
+        showSearchRecommendations(value);
+
         if (isProductsPage && window.updateSearchTerm && typeof window.updateSearchTerm === 'function') {
-            // Live filter the actual product cards on the products page
+            // Also live filter the actual product cards if we are on the products page
             window.updateSearchTerm(e.target);
-        } else if (!isProductsPage) {
-            // Show recommendations dropdown on non-product pages (Home)
-            showSearchRecommendations(value);
         }
 
         if (value.length >= 3) {
             // Here you could show search suggestions
-            console.log('Show suggestions for:', value);
+            console.log('Search query active:', value);
         }
     });
 
@@ -578,20 +585,41 @@ if (returnsItem) {
 const navLinks = document.querySelectorAll('.nav-link');
 navLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-        e.preventDefault();
         const text = link.textContent.trim();
+        const href = link.getAttribute('href');
 
         console.log('Navigation clicked:', text);
 
-        // Handle different navigation items
-        if (text === 'All' || text.includes('All')) {
-            showNotification('Browse all categories', 'info');
-        } else if (text === "Today's Deals") {
-            showNotification('Loading today\'s deals...', 'info');
-        } else if (text.includes('Eco-Friendly')) {
-            showNotification('Browse eco-friendly products', 'info');
-        } else {
-            showNotification(`Browse ${text}`, 'info');
+        // Handle category filtering if on the products page
+        const isProductsPage = document.getElementById('product-listing') !== null;
+        if (isProductsPage) {
+            if (href && href.includes('category=')) {
+                e.preventDefault();
+                const urlParams = new URLSearchParams(href.split('?')[1]);
+                const category = urlParams.get('category');
+                
+                if (window.setCategoryFilter && typeof window.setCategoryFilter === 'function') {
+                    window.setCategoryFilter(category);
+                    showNotification(`Filtering for ${category}`, 'info');
+                } else {
+                    window.location.href = href;
+                }
+            } else if (text === 'All' || text.includes('All')) {
+                e.preventDefault();
+                if (window.setCategoryFilter && typeof window.setCategoryFilter === 'function') {
+                    window.setCategoryFilter(null);
+                    showNotification('Showing all products', 'info');
+                } else {
+                    window.location.href = href;
+                }
+            }
+        } else if (href === '#' || !href) {
+            e.preventDefault();
+            if (text === 'All' || text.includes('All')) {
+                showNotification('Browse all categories', 'info');
+            } else {
+                showNotification(`Browse ${text}`, 'info');
+            }
         }
     });
 });
@@ -705,7 +733,7 @@ style.textContent = `
         gap: 12px;
         font-size: 14px;
         border-bottom: 1px solid #f0f0f0;
-        transition: background 0.2s;
+        transition: background-color 0.2s;
     }
     .recommendation-item:hover { background: #f0f7f2; }
     .recommendation-item i { color: #888; font-size: 12px; }
@@ -1023,10 +1051,7 @@ document.head.appendChild(style);
 // Mobile Menu Toggle (for responsive design)
 const allMenuBtn = document.querySelector('.all-menu');
 if (allMenuBtn) {
-    allMenuBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        showNotification('All categories menu', 'info');
-    });
+    // Note: The click listener is still active but since it has a valid href, navigation will happen.
 }
 
 // Sticky Navbar on Scroll

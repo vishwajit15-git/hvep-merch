@@ -9,6 +9,7 @@
 <title>{% block title %}Waste to Wonder | Him Village E-Prahari{% endblock %}</title>
 
 <!-- Global CSS -->
+
 <link rel="stylesheet" href="{% static 'merchandise/css/home.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
@@ -17,40 +18,43 @@
 {% block extra_css %}{% endblock %}
 
 <!-- Global Wishlist Styles (Heart Icon) -->
+
 <style>
-    .wishlist-float-btn {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 5;
-        background: white;
-        width: 34px;
-        height: 34px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border: 1px solid rgba(0,0,0,0.05);
-    }
-    .wishlist-float-btn:hover { 
-        transform: scale(1.1); 
-        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-    }
-    .wishlist-float-btn i { 
-        color: #ccc; 
-        font-size: 18px;
-        transition: color 0.2s; 
-    }
-    /* Active heart color */
-    .wishlist-float-btn i.fa-solid.active { 
-        color: #ff4757 !important; 
-    }
-    
-    /* Ensure parent containers are relative for correct positioning */
-    .card, .product-card, .wishlist-item-card { position: relative; }
+.wishlist-float-btn {
+position: absolute;
+top: 10px;
+right: 10px;
+z-index: 5;
+background: white;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+cursor: pointer;
+transition: all 0.2s ease;
+border: 1px solid rgba(0,0,0,0.05);
+}
+.wishlist-float-btn:hover {
+transform: scale(1.1);
+box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.wishlist-float-btn i {
+color: #ccc;
+font-size: 18px;
+transition: color 0.2s;
+}
+/* Active heart color */
+.wishlist-float-btn i.fa-solid.active {
+color: #ff4757 !important;
+}
+
+/* Ensure parent containers are relative for correct positioning */
+.card, .product-card, .wishlist-item-card { position: relative; }
+
+
 </style>
 
 </head>
@@ -58,164 +62,169 @@
 <body>
 
 <!-- NAVBAR -->
+
 <nav class="navbar">
-    <!-- Top Navbar -->
-    <div class="navbar-top">
-        <!-- Logo -->
-        <div id="logo">
-            <img src="{% static 'merchandise/assets/HVEPlogo.png' %}" alt="HimVillage ePrahari Store Logo">
-        </div>
+<!-- Top Navbar -->
+<div class="navbar-top">
+<!-- Logo -->
+<div id="logo">
+<img src="{% static 'merchandise/assets/HVEPlogo.png' %}" alt="HimVillage ePrahari Store Logo">
+</div>
 
-        <!-- Deliver To -->
-        <div class="deliver-to">
-            <i class="fas fa-map-marker-alt"></i>
-            <div class="deliver-content">
-                <span class="deliver-text">Delivery to</span>
-                <span class="deliver-location">Nagpur 440001</span>
-            </div>
+    <!-- Deliver To -->
+    <div class="deliver-to">
+        <i class="fas fa-map-marker-alt"></i>
+        <div class="deliver-content">
+            <span class="deliver-text">Delivery to</span>
+            <span class="deliver-location">Nagpur 440001</span>
         </div>
-
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <input type="text" class="search-input" id="searchInput" placeholder="Search eco-friendly products...">
-            <button class="search-button" id="searchBtn">
-                <i class="fas fa-search"></i>
-            </button>
-        </div>
-
-        <!-- Language -->
-        <div class="nav-item" id="languageBtn">
-            <i class="fas fa-globe"></i>
-            <div class="nav-item-content">
-                <span class="nav-item-title">EN</span>
-            </div>
-        </div>
-
-        <!-- Account -->
-        <a href="{% if user.is_authenticated %}{% url 'merchandise:profile' %}{% else %}{% url 'merchandise:login' %}{% endif %}" 
-           style="text-decoration: none; color: inherit;">
-            <div class="nav-item" id="accountBtn">
-                <div class="nav-item-content">
-                    {% if user.is_authenticated %}
-                        <span class="nav-item-label">Hello, {{ user.first_name|default:user.username }}</span>
-                    {% else %}
-                        <span class="nav-item-label">Hello, Sign in</span>
-                    {% endif %}
-                    <span class="nav-item-title">Account & Lists <i class="fas fa-caret-down"></i></span>
-                </div>
-            </div>
-        </a>
-
-        <!-- Returns & Orders -->
-        <div class="nav-item" id="ordersBtn">
-            <div class="nav-item-content">
-                <span class="nav-item-label">Returns</span>
-                <span class="nav-item-title">& Orders</span>
-            </div>
-        </div>
-
-        <!-- Cart -->
-        <a href ="{% url 'merchandise:cart' %}"
-        style="text-decoration: none; color: inherit;">
-        <div class="nav-item cart" id="cartBtn">
-            <div style="position: relative;">
-                <i class="fas fa-shopping-cart cart-icon"></i>
-                <span class="cart-count" id="cartCount">0</span>
-            </div>
-            <span class="cart-text">Cart</span>
-        </div>
-        </a>
-
-        <!-- navigation to home -->
-         <a href ="{% url 'merchandise:home' %}"
-        style="text-decoration: none; color: inherit;">
-        <div class="nav-item home-btn" id="homeBtn">
-            <i class="fas fa-home"></i>
-            <div class="nav-item-content">
-            </div> 
-        </div>
-        </a>
     </div>
-    <!-- Bottom Navbar -->
-    <div class="navbar-bottom">
-        <a href="#" class="nav-link all-menu">
-            <i class="fas fa-bars"></i> All
-        </a>
-        <a href="#" class="nav-link">Today's Deals</a>
-        <a href="#" class="nav-link"><i class="fas fa-leaf"></i> Eco-Friendly</a>
-        <a href="#" class="nav-link">Apparel</a>
-        <a href="#" class="nav-link">Bags & Accessories</a>
-        <a href="#" class="nav-link">Home Decor</a>
-        <a href="#" class="nav-link">Handicrafts</a>
-        <a href="#" class="nav-link">Gift Items</a>
-        <a href="#" class="nav-link">Best Sellers</a>
-        <a href="#" class="nav-link"><i class="fas fa-gift"></i> Gift Cards</a>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search eco-friendly products...">
+        <button class="search-button" id="searchBtn">
+            <i class="fas fa-search"></i>
+        </button>
     </div>
+
+    <!-- Language -->
+    <div class="nav-item" id="languageBtn">
+        <i class="fas fa-globe"></i>
+        <div class="nav-item-content">
+            <span class="nav-item-title">EN</span>
+        </div>
+    </div>
+
+    <!-- Account -->
+    <a href="{% if user.is_authenticated %}{% url 'merchandise:profile' %}{% else %}{% url 'merchandise:login' %}{% endif %}" 
+       style="text-decoration: none; color: inherit;">
+        <div class="nav-item" id="accountBtn">
+            <div class="nav-item-content">
+                {% if user.is_authenticated %}
+                    <span class="nav-item-label">Hello, {{ user.first_name|default:user.username }}</span>
+                {% else %}
+                    <span class="nav-item-label">Hello, Sign in</span>
+                {% endif %}
+                <span class="nav-item-title">Account & Lists <i class="fas fa-caret-down"></i></span>
+            </div>
+        </div>
+    </a>
+
+    <!-- Returns & Orders -->
+    <div class="nav-item" id="ordersBtn">
+        <div class="nav-item-content">
+            <span class="nav-item-label">Returns</span>
+            <span class="nav-item-title">& Orders</span>
+        </div>
+    </div>
+
+    <!-- Cart -->
+    <a href ="{% url 'merchandise:cart' %}"
+    style="text-decoration: none; color: inherit;">
+    <div class="nav-item cart" id="cartBtn">
+        <div style="position: relative;">
+            <i class="fas fa-shopping-cart cart-icon"></i>
+            <span class="cart-count" id="cartCount">0</span>
+        </div>
+        <span class="cart-text">Cart</span>
+    </div>
+    </a>
+
+    <!-- navigation to home -->
+     <a href ="{% url 'merchandise:home' %}"
+    style="text-decoration: none; color: inherit;">
+    <div class="nav-item home-btn" id="homeBtn">
+        <i class="fas fa-home"></i>
+        <div class="nav-item-content">
+        </div> 
+    </div>
+    </a>
+</div>
+<!-- Bottom Navbar -->
+<div class="navbar-bottom">
+    <a href="{% url 'merchandise:products' %}" class="nav-link all-menu">
+        <i class="fas fa-bars"></i> All
+    </a>
+    <a href="{% url 'merchandise:products' %}?category=Candles" class="nav-link">Candles</a>
+    <a href="{% url 'merchandise:products' %}?category=Food and gourmet" class="nav-link">Food and Gourmet</a>
+</div>
+
+
 </nav>
 
-
 <!-- PAGE CONTENT -->
+
 <main>
-    {% block content %}{% endblock %}
+{% block content %}{% endblock %}
 </main>
 
 <!-- FOOTER -->
 
 <footer class="site-footer">
-    <div class="footer-container">
+<div class="footer-container">
 
-        <div class="footer-column">
-            <h4>HimVillage E-Prahari</h4>
-            <p>
-                Promoting eco-friendly, handmade and sustainable products while
-                empowering rural communities across India.
-            </p>
-        </div>
-
-        <div class="footer-column">
-            <h4>Quick Links</h4>
-            <ul>
-                <li><a href="/merch/">Home</a></li>
-                <li><a href="/merch/products/">Products</a></li>
-                <li><a href="/merch/checkout/">Checkout</a></li>
-                <li><a href="#">About Us</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Customer Service</h4>
-            <ul>
-                <li><a href="#">Help & Support</a></li>
-                <li><a href="#">Returns & Refunds</a></li>
-                <li><a href="#">Shipping Policy</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-column">
-            <h4>Connect With Us</h4>
-            <div class="footer-social">
-                <a href="https://www.facebook.com/Himvillage/"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://www.instagram.com/himvillage_org/"><i class="fab fa-instagram"></i></a>
-                <a href="https://x.com/Himvillage"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.linkedin.com/company/himvillage/"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-        </div>
-
+    <div class="footer-column">
+        <h4>HimVillage E-Prahari</h4>
+        <p>
+            Promoting eco-friendly, handmade and sustainable products while
+            empowering rural communities across India.
+        </p>
     </div>
 
-    <div class="footer-bottom">
-        © {{ now|date:"Y" }} HimVillage E-Prahari. All rights reserved.
+    <div class="footer-column">
+        <h4>Quick Links</h4>
+        <ul>
+            <li><a href="/merch/">Home</a></li>
+            <li><a href="/merch/products/">Products</a></li>
+            <li><a href="/merch/checkout/">Checkout</a></li>
+            <li><a href="#">About Us</a></li>
+        </ul>
     </div>
+
+    <div class="footer-column">
+        <h4>Customer Service</h4>
+        <ul>
+            <li><a href="#">Help & Support</a></li>
+            <li><a href="#">Returns & Refunds</a></li>
+            <li><a href="#">Shipping Policy</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-column">
+        <h4>Connect With Us</h4>
+        <div class="footer-social">
+            <a href="https://www.facebook.com/Himvillage/"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/himvillage_org/"><i class="fab fa-instagram"></i></a>
+            <a href="https://x.com/Himvillage"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/company/himvillage/"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer-bottom">
+    © {{ now|date:"Y" }} HimVillage E-Prahari. All rights reserved.
+</div>
+
+
 </footer>
 
 <!-- Global Scripts -->
+
 <script src="{% static 'merchandise/js/wishlist.js' %}"></script>
+
 <script src="{% static 'merchandise/js/cart.js' %}"></script>
+
 <script src="{% static 'merchandise/js/navscript.js' %}"></script>
+
 <script src="{% static 'merchandise/js/footer.js' %}"></script>
 
+<script src="{% static 'merchandise/js/products.js' %}"></script>
+
 <!-- Page Specific Scripts -->
+
 {% block extra_js %}
 {% endblock %}
 

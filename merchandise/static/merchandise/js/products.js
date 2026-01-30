@@ -92,7 +92,7 @@ const MOCK_PRODUCTS = [
     name: 'Jeera Namak',
     price: 150,
     pricePer100g: true,
-    category: 'Food & Gourmet',
+    category: 'Food and gourmet',
     rating: 5,
     material: 'Salt',
     info: 'Homemade Salt',
@@ -104,7 +104,7 @@ const MOCK_PRODUCTS = [
     name: 'Lasoon Namak',
     price: 150,
     pricePer100g: true,
-    category: 'Food & Gourmet',
+    category: 'Food and gourmet',
     rating: 5,
     material: 'Salt',
     info: 'Homemade Salt',
@@ -116,7 +116,7 @@ const MOCK_PRODUCTS = [
     name: 'Bhaang Beej Namak',
     price: 150,
     pricePer100g: true,
-    category: 'Food & Gourmet',
+    category: 'Food and gourmet',
     rating: 4,
     material: 'Salt',
     info: 'Homemade Salt',
@@ -237,6 +237,25 @@ function updateCategoryFilter(checkbox) {
     } else {
         activeFilters.categories = activeFilters.categories.filter(c => c !== targetValue);
     }
+    applyFilters();
+}
+
+/**
+ * Programmatically sets the category filter.
+ * Used by navigation links in base.html via navscript.js
+ */
+function setCategoryFilter(category) {
+    if (category) {
+        activeFilters.categories = [category];
+    } else {
+        activeFilters.categories = [];
+    }
+    // Also clear search term when switching categories via nav
+    activeFilters.searchTerm = '';
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) searchInput.value = '';
+    
+    renderFilters(); 
     applyFilters();
 }
 
@@ -475,12 +494,17 @@ function handleProductDetailAddToCart() {
 function initProductApp() {
     const params = new URLSearchParams(window.location.search);
     const searchQuery = params.get('q');
+    const categoryQuery = params.get('category');
     
     if (searchQuery) {
         activeFilters.searchTerm = searchQuery.toLowerCase();
         // Also update the navbar input if it exists to match the current search
         const navbarSearch = document.getElementById('searchInput');
         if (navbarSearch) navbarSearch.value = searchQuery;
+    }
+
+    if (categoryQuery) {
+        activeFilters.categories = [categoryQuery];
     }
 
     renderFilters();
@@ -509,6 +533,7 @@ window.updateSearchTerm = updateSearchTerm;
 window.toggleSortDropdown = toggleSortDropdown;
 window.selectSortOption = selectSortOption;
 window.updateCategoryFilter = updateCategoryFilter;
+window.setCategoryFilter = setCategoryFilter;
 window.viewProductDetail = viewProductDetail;
 window.navigateImage = navigateImage;
 window.handleProductDetailAddToCart = handleProductDetailAddToCart;
